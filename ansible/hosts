@@ -1,5 +1,5 @@
 [web_server]
-172.16.6.XXX  <-- (⚠️ 중요: 여기에 실제 WEB-HOST의 IP를 적어야 해!)
+172.16.6.94
 
 [web_server:vars]
 ansible_user=docker_admin
