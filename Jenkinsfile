@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_ID = 'qkrdnjs1217' 
+        DOCKER_ID = 'parkwonbin' 
         IMAGE_NAME = 'hrm-php'
         DOCKER_CRED_ID = 'docker-hub-login'
         SSH_CRED_ID = 'ssh-web-host'
