@@ -1,0 +1,18 @@
+---
+- name: HRM Web Application Deploy
+  hosts: web_server  
+  become: yes       
+
+  tasks:
+    - name: 1. 최신 Docker 이미지 다운로드 (Pull)
+      shell: docker-compose pull
+      args:
+        chdir: /home/docker_admin/hrm-web  # docker-compose.yml이 있는 경로
+
+    - name: 2. 컨테이너 재시작 (Up)
+      shell: docker-compose up -d
+      args:
+        chdir: /home/docker_admin/hrm-web
+
+    - name: 3. 불필요한 이미지 정리 (Prune)
+      shell: docker image prune -f

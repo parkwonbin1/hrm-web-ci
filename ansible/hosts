@@ -1,0 +1,6 @@
+[web_server]
+172.16.6.XXX  <-- (⚠️ 중요: 여기에 실제 WEB-HOST의 IP를 적어야 해!)
+
+[web_server:vars]
+ansible_user=docker_admin
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
