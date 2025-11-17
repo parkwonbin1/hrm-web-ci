@@ -5,12 +5,12 @@
 
   tasks:
     - name: 1. 최신 Docker 이미지 다운로드 (Pull)
-      shell: docker-compose pull
+      shell: /usr/local/bin/docker-compose pull
       args:
         chdir: /home/docker_admin/hrm-web  # docker-compose.yml이 있는 경로
 
     - name: 2. 컨테이너 재시작 (Up)
-      shell: docker-compose up -d
+      shell: /usr/local/bin/docker-compose up -d
       args:
         chdir: /home/docker_admin/hrm-web
 
