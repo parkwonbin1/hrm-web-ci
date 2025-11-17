@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1-fpm-bullseye
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
