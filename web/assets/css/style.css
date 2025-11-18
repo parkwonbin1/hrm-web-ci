@@ -1,0 +1,29 @@
+body {
+    margin:0;
+    background:#f5f6f9;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+/* .content {
+    margin-left:220px;
+    padding:25px;
+} */
+.table {
+    width:100%;
+    background:white;
+    border-collapse:collapse;
+}
+.table th, .table td {
+    padding:12px;
+    border-bottom:1px solid #e5e7eb;
+}
+.table tr:hover {
+    background:#f0f7ff;
+    cursor:pointer;
+}
+.card {
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
