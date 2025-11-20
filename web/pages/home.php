@@ -14,7 +14,7 @@ else $greet = "늦은 밤이네요";
 <div class="home-center">
     <h1 class="welcome-text">
         <?= $greet ?>, 
-        <span class="welcome-name"><?= $name ?></span><span class="welcome-text">님</span>
+        <span class="welcome-name"><?= $name ?></span><span class="welcome-text">님!</span>
     </h1>
 </div>
 
