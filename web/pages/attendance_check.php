@@ -1,10 +1,5 @@
 <?php
 
-// index.php 내부에서 include되면 HTML 출력이 시작됨 → header 오류 발생
-// 따라서 이 파일은 직접 URL로 호출되도록 처리해야 한다.
-// (즉 index.php에서 include하면 안됨)
-// attendance 페이지에서 JS로 직접 호출 → 정상 작동.
-
 // DB, 세션 로드
 include __DIR__ . "/../config/db.php";
 session_start();
@@ -21,9 +16,12 @@ $sql = "SELECT * FROM attendance WHERE emp_id='$emp_id' AND work_date='$today'";
 $res = $conn->query($sql);
 $att = $res->fetch_assoc();
 
-// 출근
+// ==========================================
+// 출근 처리
+// ==========================================
 if ($type === "in") {
 
+    // 오늘 출근 기록이 없는 경우에만 입력
     if (!$att) {
         $conn->query("
             INSERT INTO attendance(emp_id, work_date, clock_in_time)
@@ -31,13 +29,13 @@ if ($type === "in") {
         ");
     }
 
-    header("Location: ../index.php?page=attendance");
-    exit();
 }
+// ==========================================
+// 퇴근 처리
+// ==========================================
+elseif ($type === "out") {
 
-// 퇴근
-if ($type === "out") {
-
+    // 출근 기록이 있고, 퇴근 시간이 아직 없을 때만 퇴근 처리
     if ($att && empty($att['clock_out_time'])) {
         $conn->query("
             UPDATE attendance 
@@ -46,12 +44,10 @@ if ($type === "out") {
             WHERE emp_id='$emp_id' AND work_date='$today'
         ");
     }
-
-    header("Location: ../index.php?page=attendance");
-    exit();
 }
 
+// ==========================================
+// 공통 리다이렉트 
+// ==========================================
 header("Location: ../index.php?page=attendance");
 exit();
-?>
-
