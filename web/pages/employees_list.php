@@ -6,7 +6,7 @@ include "./auth/role_admin.php";
 // 1) 페이지네이션 설정
 // =========================
 $limit = 10;
-$page  = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page  = isset($_GET['page']) ? (int)$_GET['p'] : 1;
 if ($page < 1) $page = 1;
 $start = ($page - 1) * $limit;
 
@@ -15,7 +15,7 @@ $countRes = $conn->query("SELECT COUNT(*) as total FROM employees");
 $totalRows = $countRes->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $limit);
 
-// 현재 페이지 데이터 가져오기
+// 현재 페이지 데이터 
 $sql = "SELECT * FROM employees ORDER BY emp_id DESC LIMIT $start, $limit";
 $res = $conn->query($sql);
 ?>
@@ -56,14 +56,14 @@ $res = $conn->query($sql);
     <?php endif; ?>
 
     <?php for($i = 1; $i <= $totalPages; $i++): ?>
-        <a href="?page=<?= $i ?>" 
+        <a href="?page=employees_list&p=<?= $i ?>" 
            class="page-btn <?= ($page == $i ? 'active' : '') ?>">
             <?= $i ?>
         </a>
     <?php endfor; ?>
 
     <?php if($page < $totalPages): ?>
-        <a href="?page=<?= $page + 1 ?>" class="page-btn">다음 ＞</a>
+        <a href="?page=employees_list&p=<?= $page + 1 ?>" class="page-btn">다음 ＞</a>
     <?php endif; ?>
     </div>
 </div>
