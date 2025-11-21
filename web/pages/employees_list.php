@@ -240,6 +240,7 @@ function searchEmployees() {
 }
 
 .search-box input {
+    heigth: 40px
     padding: 10px 12px;
     border: 1px solid #ddd;
     border-right: none;
@@ -249,17 +250,18 @@ function searchEmployees() {
 }
 
 .search-box .search-btn {
+    height: 40px;
     padding: 10px 18px;
-    background: #eef2ff;
+    background: #3b82f6;
     color: white;
-    border: none;
+    border: 1px solid #ddd;
     border-radius: 0 6px 6px 0;
     cursor: pointer;
     font-size: 16px;
 }
 
 .search-box .search-btn:hover {
-    background: #3b82f6;
+    background: #eef2ff;
 }
 
 </style>
