@@ -1,8 +1,8 @@
 <?php
+session_start();
 
 // DB, 세션 로드
 include __DIR__ . "/../config/db.php";
-session_start();
 include __DIR__ . "/../auth/auth_check.php";
 
 // 타입: in / out
