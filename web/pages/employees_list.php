@@ -6,6 +6,7 @@ $sql = "SELECT * FROM employees ORDER BY emp_id DESC";
 $res = $conn->query($sql);
 ?>
 
+<div id="employee-list">
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +32,11 @@ $res = $conn->query($sql);
         <?php endwhile; ?>
     </tbody>
 </table>
+</div>
 
 <div id="modal-area"></div>
 
+<!-- 직원 상세 모달 열기 -->
 <script>
 function openEmployee(id){
     fetch("modal/employee_modal.php?view=" + id)
@@ -41,7 +44,7 @@ function openEmployee(id){
     .then(html => {
         document.getElementById("modal-area").innerHTML = html;
 
-        // 🔥 모달 내부의 <script> 강제로 실행
+        //  모달 내부의 <script> 강제로 실행
         const scripts = document.querySelectorAll("#modal-area script");
         scripts.forEach(oldScript => {
             const newScript = document.createElement("script");
@@ -51,9 +54,23 @@ function openEmployee(id){
     });
 }
 
+// 직원 목록 새로고침
+function refreshEmployeeList(){
+    fetch("pages/employee_list.php")
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+
+            const newList = doc.querySelector("#employee-list").innerHTML;
+            document.querySelector("#employee-list").innerHTML = newList;
+        });
+}
+
 function closeEmployeeModal() {
     document.getElementById("modal-area").innerHTML = "";
     document.body.style.overflow = "auto";
+    refreshEmployeeList();
 }
 </script>
 
