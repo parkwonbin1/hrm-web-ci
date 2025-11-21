@@ -6,7 +6,7 @@ include "./auth/role_admin.php";
 // 1) 페이지네이션 설정
 // =========================
 $limit = 10;
-$page  = isset($_GET['page']) ? (int)$_GET['p'] : 1;
+$page  = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 if ($page < 1) $page = 1;
 $start = ($page - 1) * $limit;
 
@@ -133,50 +133,44 @@ function closeEmployeeModal() {
     background:#f3f4f6; 
 }
 
-/* 페이지네이션 스타일 */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin: 30px 0;
+    font-size: 16px;
 }
 
 .page-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    height: 40px;
-    padding: 0 12px;
-    border-radius: 50%;
-    background: #fff;
-    color: #374151;
+    display: inline-block;
+    color: #333;
     text-decoration: none;
     font-weight: 500;
-    border: 1px solid #e5e7eb;
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.page-btn:hover {
-    background: #fef3c7;
-    border-color: #fbbf24;
-    color: #92400e;
+    padding: 0 4px;
 }
 
 .page-btn.active {
-    background: #fbbf24;
-    color: white;
-    border-color: #fbbf24;
+    width: 36px;
+    height: 36px;
+    background: #fbbf24; 
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: 600;
-}
 
 .page-dots {
-    color: #9ca3af;
-    padding: 0 4px;
-    font-weight: 500;
+    color: #999;
 }
+
+.page-btn.arrow {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 6px;
+}
+
+
 </style>
 
