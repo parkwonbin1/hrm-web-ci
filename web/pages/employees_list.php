@@ -64,7 +64,7 @@ $res = $conn->query($sql);
     <?php if($page < $totalPages): ?>
         <a href="?page=<?= $page + 1 ?>" class="page-btn">다음 ＞</a>
     <?php endif; ?>
-</div
+    </div>
 </div>
 
 <div id="modal-area"></div>
