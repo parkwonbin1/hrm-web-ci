@@ -5,8 +5,9 @@ include "./auth/role_admin.php";
 // =========================
 // 1) 페이지네이션 설정
 // =========================
-$limit = 10;                       // 한 페이지당 10명
+$limit = 10;
 $page  = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
 $start = ($page - 1) * $limit;
 
 // 총 직원 수
