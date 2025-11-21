@@ -137,7 +137,7 @@ function closeEmployeeModal() {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 30px;
     margin: 30px 0;
     font-size: 16px;
 }
@@ -151,9 +151,9 @@ function closeEmployeeModal() {
 }
 
 .page-btn.active {
-    width: 36px;
+    width: 32px;
     height: 36px;
-    background: #fbbf24; 
+    background: #60a5fa; 
     color: #fff;
     border-radius: 50%;
     display: flex;
@@ -168,7 +168,7 @@ function closeEmployeeModal() {
 .page-btn.arrow {
     font-size: 20px;
     font-weight: bold;
-    padding: 0 6px;
+    padding: 0 8px;
 }
 
 
