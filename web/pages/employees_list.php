@@ -20,6 +20,23 @@ $sql = "SELECT * FROM employees ORDER BY emp_id DESC LIMIT $start, $limit";
 $res = $conn->query($sql);
 ?>
 
+<!-- 검색 영역 -->
+<div class="search-box">
+    <select id="search-field">
+        <option value="all">전체</option>
+        <option value="name">이름</option>
+        <option value="department">부서</option>
+        <option value="job_title">직무</option>
+        <option value="position">직책</option>
+        <option value="email">이메일</option>
+    </select>
+
+    <input type="text" id="search-input" placeholder="검색어 입력">
+
+    <button onclick="searchEmployees()" class="search-btn">
+        🔍
+    </button>
+</div>
 
 <div id="employee-list">
  <!-- 직원 목록 -->
@@ -171,6 +188,47 @@ function closeEmployeeModal() {
     padding: 0 8px;
 }
 
+.search-box {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 0;
+}
+
+.search-box select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-right: none;
+    background: #f3f4f6;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-box input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-right: none;
+    width: 220px;
+    outline: none;
+    font-size: 14px;
+}
+
+/* 버튼 (이미지처럼 오른쪽 컬러 박스) */
+.search-box .search-btn {
+    padding: 10px 18px;
+    background: #f25c3d; 
+    color: white;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-box .search-btn:hover {
+    background: #d94e31;
+}
 
 </style>
 
