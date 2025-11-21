@@ -49,20 +49,22 @@ $res = $conn->query($sql);
 
 <!-- 검색 박스 -->
 <div class="search-box">
-    <select id="search-field">
-        <option value="all" <?= ($field=='all'?'selected':'') ?>>전체</option>
-        <option value="name" <?= ($field=='name'?'selected':'') ?>>이름</option>
-        <option value="department" <?= ($field=='department'?'selected':'') ?>>부서</option>
-        <option value="job_title" <?= ($field=='job_title'?'selected':'') ?>>직무</option>
-        <option value="position" <?= ($field=='position'?'selected':'') ?>>직책</option>
-        <option value="email" <?= ($field=='email'?'selected':'') ?>>이메일</option>
-    </select>
+    <div class="search-select-wrap">
+        <select id="search-field" class="search-select">
+            <option value="all">전체</option>
+            <option value="name">이름</option>
+            <option value="department">부서</option>
+            <option value="job_title">직무</option>
+            <option value="position">직책</option>
+            <option value="email">이메일</option>
+        </select>
+    </div>
 
-    <input type="text" id="search-input" 
-           value="<?= htmlspecialchars($keyword) ?>" 
-           placeholder="검색어 입력">
+    <input type="text" id="search-input" class="search-input" placeholder="">
 
-    <button onclick="searchEmployees()" class="search-btn">검색</button>
+    <button onclick="searchEmployees()" class="search-btn">
+        <span class="search-icon">검색</span>
+    </button>
 </div>
 
 
@@ -226,42 +228,60 @@ function searchEmployees() {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 0;
+    margin-bottom: 25px;
 }
 
-.search-box select {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
+.search-select-wrap {
+    background: #f8f9fa;
+    border: 1px solid #d1d5db;
     border-right: none;
-    background: #f3f4f6;
-    border-radius: 6px 0 0 6px;
-    outline: none;
-    font-size: 14px;
+    border-radius: 10px 0 0 10px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
 }
 
-.search-box input {
-    heigth: 40px
-    /* padding: 10px 12px; */
-    border: 1px solid #ddd;
-    border-right: none;
-    width: 220px;
-    outline: none;
+.search-select {
+    border: none;
+    background: transparent;
     font-size: 14px;
-}
-
-.search-box .search-btn {
-    height: 40px;
-    padding: 10px 18px;
-    background: #3b82f6;
-    color: white;
-    border: 1px solid #ddd;
-    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    outline: none;
     cursor: pointer;
-    font-size: 16px;
 }
 
-.search-box .search-btn:hover {
+.search-input {
+    height: 42px;
+    border: 1px solid #d1d5db;
+    border-left: none;
+    padding: 0 15px;
+    width: 250px;
+    outline: none;
+    font-size: 15px;
+    border-radius: 0;
+}
+
+.search-btn {
+    height: 42px;
+    padding: 0 22px;
+    background: #3b82f6; 
+    border: none;
+    color: #fff;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.search-btn:hover {
     background: #eef2ff;
+}
+
+.search-icon {
+    font-size: 18px;
+    transform: translateY(1px);
 }
 
 </style>
