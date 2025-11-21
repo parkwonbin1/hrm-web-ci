@@ -1,83 +1,76 @@
 <?php
-// 세션 시작 및 데이터베이스 연결
-session_start();
-include __DIR__ . "/../config/db.php";
-include __DIR__ . "/../config/minio.php"; // MinIO 연결 파일
+include "../config/db.php";
+include "../config/minio.php";
 
-// POST 요청이 아닌 경우, 잘못된 접근 처리
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    exit('잘못된 접근');
-}
-
-// 폼 데이터 처리
-$emp_id = $_POST['emp_id'];
-$name = $_POST['name'];
+$emp_id     = $_POST['emp_id'];
+$name       = $_POST['name'];
 $department = $_POST['department'];
-$job_title = $_POST['job_title'];
-$position = $_POST['position'];
-$hire_date = $_POST['hire_date'];
-$role = $_POST['role'];
-$tech_stack = $_POST['tech_stack'];
+$job        = $_POST['job_title'];
+$position   = $_POST['position'];
+$hire       = $_POST['hire_date'];
+$role       = $_POST['role'];
+$tech       = $_POST['tech_stack'];
 
-// 프로필 이미지 파일 처리
-$profile_img_url = $_POST['profile_img'] ?? null;
-$delete_image = $_POST['delete_image'] ?? null;
-$profile_image_url = null;
+// 기존 정보 가져오기
+$res = $conn->query("SELECT * FROM employees WHERE emp_id='$emp_id'");
+$old = $res->fetch_assoc();
 
-// 프로필 이미지 삭제
-if ($delete_image == 1) {
-    $res = $conn->query("SELECT profile_image_url FROM employees WHERE emp_id='$emp_id'");
-    $emp = $res->fetch_assoc();
-    if ($emp['profile_image_url']) {
-        $key = basename($emp['profile_image_url']);
+$old_url = $old['profile_image_url'];
+$profile_url = $old_url;
+
+// 👉 1) 기존 이미지 삭제 체크 시 MinIO에서도 삭제
+if (!empty($_POST['delete_image']) && $old_url) {
+    $key = basename(parse_url($old_url, PHP_URL_PATH)); // MinIO 파일명만 추출
+
+    try {
         $s3->deleteObject([
             'Bucket' => $MINIO_BUCKET,
-            'Key' => $key,
+            'Key'    => $key
         ]);
-        $profile_image_url = null;
+    } catch (Exception $e) {
+        // 삭제 오류 무시
     }
+
+    $profile_url = null;
 }
 
-// 프로필 이미지 업로드
+// 👉 2) 새 이미지 업로드
 if (!empty($_FILES['profile_img']['name'])) {
-    $file = $_FILES['profile_img'];
-    $file_name = $emp_id . '-' . basename($file['name']);
-    $file_tmp = $file['tmp_name'];
-    $file_path = "/tmp/$file_name";
 
-    // MinIO에 이미지 업로드
-    move_uploaded_file($file_tmp, $file_path);
+    $tmp = $_FILES['profile_img']['tmp_name'];
+    $ext = pathinfo($_FILES['profile_img']['name'], PATHINFO_EXTENSION);
+    if (!$ext) $ext = "jpg";
+
+    $filename = "emp_{$emp_id}_" . time() . "." . $ext;
+
+    // PUT to MinIO
     $s3->putObject([
         'Bucket' => $MINIO_BUCKET,
-        'Key' => $file_name,
-        'SourceFile' => $file_path,
-        'ACL' => 'public-read'
+        'Key'    => $filename,
+        'Body'   => fopen($tmp, 'r'),
+        'ACL'    => 'public-read',
+        'ContentType' => mime_content_type($tmp)
     ]);
 
-    $profile_image_url = $MINIO_PUBLIC . '/' . $file_name;
-    unlink($file_path); // 임시 파일 삭제
+    // 저장되는 URL
+    $profile_url = "{$MINIO_PUBLIC}/{$MINIO_BUCKET}/{$filename}";
 }
 
-// 데이터베이스 업데이트
+// 👉 3) 직원 정보 업데이트
 $sql = "
-    UPDATE employees 
-    SET
-        name = '$name',
-        department = '$department',
-        job_title = '$job_title',
-        position = '$position',
-        hire_date = '$hire_date',
-        role = '$role',
-        tech_stack = '$tech_stack',
-        profile_image_url = '$profile_image_url'
-    WHERE emp_id = '$emp_id'
+UPDATE employees SET
+    name='$name',
+    department='$department',
+    job_title='$job',
+    position='$position',
+    hire_date='$hire',
+    role='$role',
+    tech_stack='$tech',
+    profile_image_url=" . ($profile_url ? "'$profile_url'" : "NULL") . "
+WHERE emp_id='$emp_id'
 ";
 
-if ($conn->query($sql)) {
-    echo "업데이트 성공!";
-    exit();
-} else {
-    echo "업데이트 실패: " . $conn->error;
-    exit();
-}
+$conn->query($sql);
+
+echo "OK";
 ?>
