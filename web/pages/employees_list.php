@@ -54,26 +54,11 @@ function openEmployee(id){
     });
 }
 
-// 직원 목록 새로고침
-function refreshEmployeeList(){
-    fetch("./pages/employee_list.php")
-        .then(res => res.text())
-        .then(html => {
-            const temp = document.createElement("div");
-            temp.innerHTML = html.trim();
-
-            const newList = temp.querySelector("#employee-list");
-            if(newList){
-                document.querySelector("#employee-list").innerHTML = newList.innerHTML;
-            }
-        })
-        .catch(err => console.error("AJAX Error:", err));
-}
 
 function closeEmployeeModal() {
     document.getElementById("modal-area").innerHTML = "";
     document.body.style.overflow = "auto";
-    refreshEmployeeList();
+    location.reload();
 }
 </script>
 
