@@ -3,40 +3,68 @@ include "./config/db.php";
 include "./auth/role_admin.php";
 
 // =========================
-// 1) 페이지네이션 설정
+// 페이지네이션 설정
 // =========================
 $limit = 10;
 $page  = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 if ($page < 1) $page = 1;
 $start = ($page - 1) * $limit;
 
-// 총 직원 수
-$countRes = $conn->query("SELECT COUNT(*) as total FROM employees");
+// =========================
+// 검색 파라미터 처리
+// =========================
+$field   = $_GET['field']   ?? 'all';
+$keyword = $_GET['keyword'] ?? '';
+
+// =========================
+// 검색 WHERE 조건 생성
+// =========================
+$where = "";
+
+if ($keyword !== "") {
+    $safeKeyword = $conn->real_escape_string($keyword);
+
+    if ($field === "all") {
+        $where = "WHERE 
+            name LIKE '%$safeKeyword%' OR
+            department LIKE '%$safeKeyword%' OR
+            job_title LIKE '%$safeKeyword%' OR
+            position LIKE '%$safeKeyword%' OR
+            email LIKE '%$safeKeyword%'";
+    } else {
+        $safeField = $conn->real_escape_string($field);
+        $where = "WHERE $safeField LIKE '%$safeKeyword%'";
+    }
+}
+
+// 총 데아터 수
+$countRes = $conn->query("SELECT COUNT(*) AS total FROM employees $where");
 $totalRows = $countRes->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $limit);
 
 // 현재 페이지 데이터 
-$sql = "SELECT * FROM employees ORDER BY emp_id DESC LIMIT $start, $limit";
+$sql = "SELECT * FROM employees $where ORDER BY emp_id DESC LIMIT $start, $limit";
 $res = $conn->query($sql);
 ?>
 
-<!-- 검색 영역 -->
+<!-- 검색 박스 -->
 <div class="search-box">
     <select id="search-field">
-        <option value="all">전체</option>
-        <option value="name">이름</option>
-        <option value="department">부서</option>
-        <option value="job_title">직무</option>
-        <option value="position">직책</option>
-        <option value="email">이메일</option>
+        <option value="all" <?= ($field=='all'?'selected':'') ?>>전체</option>
+        <option value="name" <?= ($field=='name'?'selected':'') ?>>이름</option>
+        <option value="department" <?= ($field=='department'?'selected':'') ?>>부서</option>
+        <option value="job_title" <?= ($field=='job_title'?'selected':'') ?>>직무</option>
+        <option value="position" <?= ($field=='position'?'selected':'') ?>>직책</option>
+        <option value="email" <?= ($field=='email'?'selected':'') ?>>이메일</option>
     </select>
 
-    <input type="text" id="search-input" placeholder="검색어 입력">
+    <input type="text" id="search-input" 
+           value="<?= htmlspecialchars($keyword) ?>" 
+           placeholder="검색어 입력">
 
-    <button onclick="searchEmployees()" class="search-btn">
-        🔍
-    </button>
+    <button onclick="searchEmployees()" class="search-btn">검색</button>
 </div>
+
 
 <div id="employee-list">
  <!-- 직원 목록 -->
@@ -68,17 +96,14 @@ $res = $conn->query($sql);
 
 <!-- 페이지네이션 버튼 -->
 <div class="pagination">
-    <!-- 맨 처음으로 -->
     <?php if($page > 1): ?>
         <a href="?page=employees_list&p=1" class="page-btn">≪</a>
     <?php endif; ?>
 
-    <!-- 이전 페이지 -->
     <?php if($page > 1): ?>
         <a href="?page=employees_list&p=<?= $page - 1 ?>" class="page-btn">＜</a>
     <?php endif; ?>
 
-    <!-- 페이지 번호들 (최대 5개만 표시) -->
     <?php 
     $startPage = max(1, $page - 2);
     $endPage = min($totalPages, $page + 2);
@@ -91,7 +116,6 @@ $res = $conn->query($sql);
         </a>
     <?php endfor; ?>
 
-    <!-- ... 표시 (마지막 페이지가 멀 때) -->
     <?php if($endPage < $totalPages): ?>
         <span class="page-dots">...</span>
         <a href="?page=employees_list&p=<?= $totalPages ?>" class="page-btn">
@@ -99,12 +123,10 @@ $res = $conn->query($sql);
         </a>
     <?php endif; ?>
 
-    <!-- 다음 페이지 -->
     <?php if($page < $totalPages): ?>
         <a href="?page=employees_list&p=<?= $page + 1 ?>" class="page-btn">＞</a>
     <?php endif; ?>
 
-    <!-- 맨 끝으로 -->
     <?php if($page < $totalPages): ?>
         <a href="?page=employees_list&p=<?= $totalPages ?>" class="page-btn">≫</a>
     <?php endif; ?>
@@ -135,6 +157,14 @@ function closeEmployeeModal() {
     document.body.style.overflow = "auto";
     location.reload();
 }
+
+function searchEmployees() {
+    const field = document.getElementById('search-field').value;
+    const keyword = document.getElementById('search-input').value;
+
+    location.href = `?page=employees_list&field=${field}&keyword=${encodeURIComponent(keyword)}&p=1`;
+}
+
 </script>
 
 <style>
@@ -154,38 +184,42 @@ function closeEmployeeModal() {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 14px;
     margin: 30px 0;
     font-size: 16px;
 }
 
 .page-btn {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 28px;
+    height: 28px;
     color: #333;
     text-decoration: none;
     font-weight: 500;
-    padding: 0 4px;
 }
 
 .page-btn.active {
-    width: 32px;
-    height: 36px;
-    background: #60a5fa; 
+    width: 38px;
+    height: 38px;
+    background: #eef2ff;
     color: #fff;
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     font-weight: 600;
+    font-size: 16px;
+}
 
 .page-dots {
     color: #999;
+    font-size: 16px;
 }
 
 .page-btn.arrow {
     font-size: 20px;
     font-weight: bold;
-    padding: 0 8px;
+    padding: 0 10px;
 }
 
 .search-box {
@@ -193,7 +227,6 @@ function closeEmployeeModal() {
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 20px;
-    gap: 0;
 }
 
 .search-box select {
@@ -215,10 +248,9 @@ function closeEmployeeModal() {
     font-size: 14px;
 }
 
-/* 버튼 (이미지처럼 오른쪽 컬러 박스) */
 .search-box .search-btn {
     padding: 10px 18px;
-    background: #f25c3d; 
+    background: #eef2ff;
     color: white;
     border: none;
     border-radius: 0 6px 6px 0;
@@ -227,7 +259,7 @@ function closeEmployeeModal() {
 }
 
 .search-box .search-btn:hover {
-    background: #d94e31;
+    background: #3b82f6;
 }
 
 </style>
