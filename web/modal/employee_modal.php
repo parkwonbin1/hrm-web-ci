@@ -153,12 +153,9 @@ function deleteEmployee(id){
 document.body.style.overflow = "hidden";
 
 function closeEmployeeModal() {
-    document.getElementById("viewModal").remove(); 
-    document.querySelector(".modal-overlay").remove();
-
-    // 스크롤 다시 허용
-    document.body.style.overflow = "auto";
+    window.top.location.reload();
 }
+
 </script>
 
 <style>
