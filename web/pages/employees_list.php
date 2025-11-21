@@ -51,21 +51,46 @@ $res = $conn->query($sql);
 
 <!-- 페이지네이션 버튼 -->
 <div class="pagination">
+    <!-- 맨 처음으로 -->
     <?php if($page > 1): ?>
-        <a href="?page=<?= $page - 1 ?>" class="page-btn">＜ 이전</a>
+        <a href="?page=employees_list&p=1" class="page-btn">≪</a>
     <?php endif; ?>
 
-    <?php for($i = 1; $i <= $totalPages; $i++): ?>
+    <!-- 이전 페이지 -->
+    <?php if($page > 1): ?>
+        <a href="?page=employees_list&p=<?= $page - 1 ?>" class="page-btn">＜</a>
+    <?php endif; ?>
+
+    <!-- 페이지 번호들 (최대 5개만 표시) -->
+    <?php 
+    $startPage = max(1, $page - 2);
+    $endPage = min($totalPages, $page + 2);
+    
+    for($i = $startPage; $i <= $endPage; $i++): 
+    ?>
         <a href="?page=employees_list&p=<?= $i ?>" 
            class="page-btn <?= ($page == $i ? 'active' : '') ?>">
             <?= $i ?>
         </a>
     <?php endfor; ?>
 
-    <?php if($page < $totalPages): ?>
-        <a href="?page=employees_list&p=<?= $page + 1 ?>" class="page-btn">다음 ＞</a>
+    <!-- ... 표시 (마지막 페이지가 멀 때) -->
+    <?php if($endPage < $totalPages): ?>
+        <span class="page-dots">...</span>
+        <a href="?page=employees_list&p=<?= $totalPages ?>" class="page-btn">
+            <?= $totalPages ?>
+        </a>
     <?php endif; ?>
-    </div>
+
+    <!-- 다음 페이지 -->
+    <?php if($page < $totalPages): ?>
+        <a href="?page=employees_list&p=<?= $page + 1 ?>" class="page-btn">＞</a>
+    <?php endif; ?>
+
+    <!-- 맨 끝으로 -->
+    <?php if($page < $totalPages): ?>
+        <a href="?page=employees_list&p=<?= $totalPages ?>" class="page-btn">≫</a>
+    <?php endif; ?>
 </div>
 
 <div id="modal-area"></div>
@@ -104,6 +129,54 @@ function closeEmployeeModal() {
     padding:10px;
     border-bottom:1px solid #ddd;
 }
-.table tr:hover { background:#f3f4f6; }
+.table tr:hover { 
+    background:#f3f4f6; 
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 50%;
+    background: #fff;
+    color: #374151;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.page-btn:hover {
+    background: #fef3c7;
+    border-color: #fbbf24;
+    color: #92400e;
+}
+
+.page-btn.active {
+    background: #fbbf24;
+    color: white;
+    border-color: #fbbf24;
+    font-weight: 600;
+}
+
+.page-dots {
+    color: #9ca3af;
+    padding: 0 4px;
+    font-weight: 500;
+}
 </style>
 
