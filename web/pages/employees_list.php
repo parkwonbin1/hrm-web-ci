@@ -56,15 +56,18 @@ function openEmployee(id){
 
 // 직원 목록 새로고침
 function refreshEmployeeList(){
-    fetch("pages/employee_list.php")
+    fetch("./pages/employee_list.php")
         .then(res => res.text())
         .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
+            const temp = document.createElement("div");
+            temp.innerHTML = html.trim();
 
-            const newList = doc.querySelector("#employee-list").innerHTML;
-            document.querySelector("#employee-list").innerHTML = newList;
-        });
+            const newList = temp.querySelector("#employee-list");
+            if(newList){
+                document.querySelector("#employee-list").innerHTML = newList.innerHTML;
+            }
+        })
+        .catch(err => console.error("AJAX Error:", err));
 }
 
 function closeEmployeeModal() {
