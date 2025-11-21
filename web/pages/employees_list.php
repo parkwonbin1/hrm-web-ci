@@ -204,7 +204,7 @@ function searchEmployees() {
     width: 38px;
     height: 38px;
     background: #eef2ff;
-    color: #fff;
+    color: #333;
     border-radius: 50%;
     text-align: center;
     font-weight: 600;
@@ -224,7 +224,7 @@ function searchEmployees() {
 
 .search-box {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -241,7 +241,7 @@ function searchEmployees() {
 
 .search-box input {
     heigth: 40px
-    padding: 10px 12px;
+    /* padding: 10px 12px; */
     border: 1px solid #ddd;
     border-right: none;
     width: 220px;
