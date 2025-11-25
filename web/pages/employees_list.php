@@ -42,6 +42,27 @@ $countRes = $conn->query("SELECT COUNT(*) AS total FROM employees $where");
 $totalRows = $countRes->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $limit);
 
+// 현재 페이지 데이터 
+$sql = "SELECT * FROM employees $where ORDER BY emp_id DESC LIMIT $start, $limit";
+$res = $conn->query($sql);
+?>
+
+<div class="content">
+    <!-- 페이지 헤더 -->
+    <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+            <h1 style="margin-bottom: 0.5rem;">👥 직원 관리</h1>
+            <p class="text-muted">조직의 모든 직원 정보를 한눈에 확인하고 관리하세요</p>
+        </div>
+        <a href="?page=employee_add" class="btn btn-primary">
+            + 직원 추가
+        </a>
+    </div>
+
+    <!-- 상단 통계 바 -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 48px; height: 48px; border-radius: var(--radius); background: var(--primary-50); color: var(--primary-600); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
                 👤
             </div>
             <div>
