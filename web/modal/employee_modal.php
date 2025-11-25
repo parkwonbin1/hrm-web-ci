@@ -17,76 +17,125 @@ $emp = $res->fetch_assoc();
 <div class="modal-container" id="viewModal">
 
     <div class="modal-header">
-        <h3><?= htmlspecialchars($emp['name'] ?? '') ?> 상세정보</h3>
+        <h3 class="modal-title"><?= htmlspecialchars($emp['name'] ?? '') ?> 상세정보</h3>
         <button class="modal-close" onclick="closeEmployeeModal()">✕</button>
     </div>
 
     <div class="modal-body">
-        <div style="text-align:center;">
-            <img src="<?= $emp['profile_image_url'] ?: 'https://via.placeholder.com/120' ?>"
-                 style="width:130px;height:130px;border-radius:10px;object-fit:cover;border:2px solid #ddd;">
+        <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
+            <div style="flex-shrink: 0;">
+                <img src="<?= $emp['profile_image_url'] ?: 'https://via.placeholder.com/120' ?>"
+                     style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--slate-50); box-shadow: var(--shadow);">
+            </div>
+            <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <div class="text-muted text-sm">부서</div>
+                    <div style="font-weight: 500;"><?= htmlspecialchars($emp['department'] ?? '') ?></div>
+                </div>
+                <div>
+                    <div class="text-muted text-sm">직무</div>
+                    <div style="font-weight: 500;"><?= htmlspecialchars($emp['job_title'] ?? '') ?></div>
+                </div>
+                <div>
+                    <div class="text-muted text-sm">직책</div>
+                    <div style="font-weight: 500;"><?= htmlspecialchars($emp['position'] ?? '') ?></div>
+                </div>
+                <div>
+                    <div class="text-muted text-sm">입사일</div>
+                    <div style="font-weight: 500;"><?= htmlspecialchars($emp['hire_date'] ?? '') ?></div>
+                </div>
+            </div>
         </div>
 
-        <p><b>부서:</b> <?= htmlspecialchars($emp['department'] ?? '') ?></p>
-        <p><b>직무:</b> <?= htmlspecialchars($emp['job_title'] ?? '') ?></p>
-        <p><b>직책:</b> <?= htmlspecialchars($emp['position'] ?? '') ?></p>
-        <p><b>입사일:</b> <?= htmlspecialchars($emp['hire_date'] ?? '') ?></p>
-        <p><b>권한:</b> <?= htmlspecialchars($emp['role'] ?? '') ?></p>
-        <p><b>기술스택:</b><br><?= nl2br(htmlspecialchars($emp['tech_stack'] ?? '')) ?></p>
+        <div style="background: var(--slate-50); padding: 1.25rem; border-radius: var(--radius);">
+            <div style="margin-bottom: 1rem;">
+                <div class="text-muted text-sm" style="margin-bottom: 0.25rem;">권한</div>
+                <span class="badge <?= $emp['role'] === 'ADMIN' ? 'badge-primary' : 'badge-gray' ?>">
+                    <?= htmlspecialchars($emp['role'] ?? '') ?>
+                </span>
+            </div>
+            <div>
+                <div class="text-muted text-sm" style="margin-bottom: 0.25rem;">기술스택</div>
+                <div style="font-size: 0.9375rem; line-height: 1.6;"><?= nl2br(htmlspecialchars($emp['tech_stack'] ?? '')) ?></div>
+            </div>
+        </div>
     </div>
 
     <div class="modal-footer">
-        <button class="btn-edit" onclick="openEditModal()">수정</button>
-        <button class="btn-delete" onclick="deleteEmployee(<?= $emp['emp_id'] ?>)">삭제</button>
-        <button class="btn-cancel" onclick="closeEmployeeModal()">닫기</button>
+        <button class="btn btn-primary" onclick="openEditModal()">수정</button>
+        <button class="btn btn-secondary" style="color: var(--danger-600); border-color: var(--danger-200);" onclick="deleteEmployee(<?= $emp['emp_id'] ?>)">삭제</button>
+        <button class="btn btn-secondary" onclick="closeEmployeeModal()">닫기</button>
     </div>
 </div>
 
 <!-- 수정 모달 -->
-<div class="modal-container hidden" id="editModal">
+<div class="modal-container hidden" id="editModal" style="display: none;">
 
     <div class="modal-header">
-        <h3>직원 정보 수정</h3>
+        <h3 class="modal-title">직원 정보 수정</h3>
         <button class="modal-close" onclick="closeEditModal()">✕</button>
     </div>
 
     <form id="updateForm" enctype="multipart/form-data">
         <input type="hidden" name="emp_id" value="<?= $emp['emp_id'] ?>">
 
-        <label>이름</label>
-        <input class="form-control" name="name" value="<?= $emp['name'] ?>">
+        <div class="modal-body" style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+            <div class="form-group">
+                <label class="form-label">이름</label>
+                <input class="form-control" name="name" value="<?= $emp['name'] ?>">
+            </div>
 
-        <label>부서</label>
-        <input class="form-control" name="department" value="<?= $emp['department'] ?>">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">부서</label>
+                    <input class="form-control" name="department" value="<?= $emp['department'] ?>">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">직무</label>
+                    <input class="form-control" name="job_title" value="<?= $emp['job_title'] ?>">
+                </div>
+            </div>
 
-        <label>직무</label>
-        <input class="form-control" name="job_title" value="<?= $emp['job_title'] ?>">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">직책</label>
+                    <input class="form-control" name="position" value="<?= $emp['position'] ?>">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">입사일</label>
+                    <input type="date" class="form-control" name="hire_date" value="<?= $emp['hire_date'] ?>">
+                </div>
+            </div>
 
-        <label>직책</label>
-        <input class="form-control" name="position" value="<?= $emp['position'] ?>">
+            <div class="form-group">
+                <label class="form-label">권한</label>
+                <select class="form-control" name="role">
+                    <option <?= $emp['role']=='USER'?'selected':'' ?> value="USER">USER</option>
+                    <option <?= $emp['role']=='ADMIN'?'selected':'' ?> value="ADMIN">ADMIN</option>
+                </select>
+            </div>
 
-        <label>입사일</label>
-        <input type="date" class="form-control" name="hire_date" value="<?= $emp['hire_date'] ?>">
+            <div class="form-group">
+                <label class="form-label">기술스택</label>
+                <textarea class="form-control" name="tech_stack" rows="3"><?= htmlspecialchars($emp['tech_stack'] ?? '') ?></textarea>
+            </div>
 
-        <label>권한</label>
-        <select class="form-control" name="role">
-            <option <?= $emp['role']=='USER'?'selected':'' ?> value="USER">USER</option>
-            <option <?= $emp['role']=='ADMIN'?'selected':'' ?> value="ADMIN">ADMIN</option>
-        </select>
-
-        <label>기술스택</label>
-        <textarea class="form-control" name="tech_stack"><?= htmlspecialchars($emp['tech_stack'] ?? '') ?></textarea>
-
-        <label>프로필 사진 변경</label>
-        <input type="file" class="form-control" name="profile_img">
-
-        <?php if ($emp['profile_image_url']): ?>
-            <label><input type="checkbox" name="delete_image" value="1"> 사진 삭제</label>
-        <?php endif; ?>
+            <div class="form-group">
+                <label class="form-label">프로필 사진 변경</label>
+                <input type="file" class="form-control" name="profile_img">
+                <?php if ($emp['profile_image_url']): ?>
+                    <div style="margin-top: 0.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--slate-600);">
+                            <input type="checkbox" name="delete_image" value="1"> 사진 삭제
+                        </label>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn-save" onclick="submitUpdate()">저장</button>
-            <button type="button" class="btn-cancel" onclick="closeEditModal()">취소</button>
+            <button type="button" class="btn btn-primary" onclick="submitUpdate()">저장</button>
+            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">취소</button>
         </div>
     </form>
 
@@ -94,13 +143,13 @@ $emp = $res->fetch_assoc();
 
 <script>
 function openEditModal(){
-    document.getElementById("viewModal").classList.add("hidden");
-    document.getElementById("editModal").classList.remove("hidden");
+    document.getElementById("viewModal").style.display = "none";
+    document.getElementById("editModal").style.display = "block";
 }
 
 function closeEditModal(){
-    document.getElementById("editModal").classList.add("hidden");
-    document.getElementById("viewModal").classList.remove("hidden");
+    document.getElementById("editModal").style.display = "none";
+    document.getElementById("viewModal").style.display = "block";
 }
 
 function submitUpdate(){
@@ -155,62 +204,4 @@ document.body.style.overflow = "hidden";
 function closeEmployeeModal() {
     window.top.location.reload();
 }
-
 </script>
-
-<style>
-.hidden { display:none !important; }
-
-.modal-overlay {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.45);
-    z-index:998;
-}
-
-.modal-container {
-    position:fixed;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%);
-    background:#fff;
-    padding:25px;
-    width:520px;
-    border-radius:12px;
-    z-index:999;
-    max-height:90vh;
-    overflow-y:auto;
-}
-
-.modal-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #eee;
-    padding-bottom:10px;
-    margin-bottom:15px;
-}
-
-.modal-close {
-    background:none;
-    border:none;
-    font-size:22px;
-    cursor:pointer;
-}
-
-.form-control {
-    width:100%; padding:10px;
-    margin-bottom:10px;
-    border:1px solid #ddd;
-    border-radius:6px;
-}
-
-.modal-footer {
-    display:flex; justify-content:flex-end; gap:10px;
-}
-
-.btn-edit { background:#2563eb; color:#fff; padding:8px 18px; border:none; border-radius:6px; }
-.btn-delete { background:#dc3545; color:#fff; padding:8px 18px; border:none; border-radius:6px; }
-.btn-cancel { background:#6b7280; color:#fff; padding:8px 18px; border:none; border-radius:6px; }
-.btn-save { background:#0284c7; color:#fff; padding:8px 18px; border:none; border-radius:6px; }
-</style>
-

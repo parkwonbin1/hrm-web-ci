@@ -29,38 +29,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = "잘못된 로그인 정보입니다.";
 }
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>HRM 로그인</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-body { background:#f4f5f8; }
-.box {
-    width:380px; margin:120px auto;
-    background:white; padding:30px;
-    border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRM 로그인</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=<?= time() ?>">
 </head>
 <body>
-<div class="box">
-    <h3 class="text-center mb-3">HRM 로그인</h3>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <span class="login-logo">🏢</span>
+                <h1 class="login-title">HRM System</h1>
+                <p class="login-subtitle">인사관리 시스템에 오신 것을 환영합니다</p>
+            </div>
 
-    <form method="POST">
-        <label>이메일</label>
-        <input class="form-control mb-3" type="email" name="email" required>
+            <form method="POST">
+                <div class="form-group">
+                    <label class="form-label">이메일</label>
+                    <input class="form-control" type="email" name="email" placeholder="name@company.com" required>
+                </div>
 
-        <label>비밀번호</label>
-        <input class="form-control mb-3" type="password" name="password" required>
+                <div class="form-group">
+                    <label class="form-label">비밀번호</label>
+                    <input class="form-control" type="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
 
-        <button class="btn btn-primary w-100">로그인</button>
+                <button class="btn btn-primary" style="width: 100%; padding: 0.75rem; margin-top: 1rem;">로그인</button>
 
-        <?php if($error): ?>
-            <div class="alert alert-danger mt-3"><?= $error ?></div>
-        <?php endif; ?>
-    </form>
-</div>
+                <?php if($error): ?>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--danger-50); color: var(--danger-600); border-radius: var(--radius); font-size: 0.875rem; text-align: center;">
+                        <?= $error ?>
+                    </div>
+                <?php endif; ?>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
-
