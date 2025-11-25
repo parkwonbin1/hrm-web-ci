@@ -2,7 +2,10 @@
 // 출력 버퍼가 없으면 생성
 if (!ob_get_level()) ob_start();
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 include "auth/auth_check.php";
 
 $page = $_GET['page'] ?? "home";
