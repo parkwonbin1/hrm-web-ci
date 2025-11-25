@@ -23,7 +23,7 @@ $page_title = $titles[$page] ?? "HRM 시스템";
 <head>
     <meta charset="UTF-8">
     <title><?= $page_title ?></title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= time() ?>">
 </head>
 
 <body>
