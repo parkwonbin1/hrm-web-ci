@@ -8,7 +8,7 @@ elseif ($hour >= 18 && $hour < 23) $greet = "기분 좋은 저녁이에요";
 else $greet = "늦은 밤이네요";
 ?>
 <div class="content" style="display:flex; justify-content:center; align-items:center; min-height:calc(100vh - 140px);">
-  <div class="card" style="max-width:800px; width:100%; padding:2rem; text-align:center;">
+  <div class="" style="max-width:800px; width:100%; padding:2rem; text-align:center;">
     <h1 style="font-size:3rem; margin-bottom:1rem; background:linear-gradient(135deg, var(--primary-600), var(--primary-500)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
       <?= $greet ?>
     </h1>
