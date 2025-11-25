@@ -178,6 +178,6 @@ function deleteEmployee(id){
         .then(d=>{alert('삭제 완료!'); location.href='index.php?page=employees_list';});
 }
 function closeEmployeeModal(){
-    window.top.location.reload();
+    location.href = "index.php?page=employees_list";
 }
 </script>
