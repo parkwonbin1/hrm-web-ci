@@ -14,45 +14,46 @@ $clocked_in   = $has_record && !empty($att['clock_in_time']);
 $clocked_out  = $has_record && !empty($att['clock_out_time']);
 ?>
 
-<div class="att-card">
+<div class="content" style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 200px);">
+    <div class="card" style="width: 100%; max-width: 400px; text-align: center; padding: 3rem 2rem;">
+        
+        <!-- 상단 시간 표시 -->
+        <div style="margin-bottom: 2rem;">
+            <div id="currentTime" style="font-size: 3rem; font-weight: 700; color: var(--slate-900); line-height: 1;"></div>
+            <div style="margin-top: 0.5rem; color: var(--slate-500); font-size: 1rem;"><?= date("Y년 m월 d일 (D)") ?></div>
+        </div>
 
-    <!-- 상단 시간 표시 -->
-    <div class="time-section">
-        <div id="currentTime" class="current-time"></div>
-        <div class="current-date"><?= date("Y년 m월 d일 (D)") ?></div>
-    </div>
+        <!-- 상태 표시 -->
+        <div style="margin-bottom: 2rem; font-size: 1.125rem; font-weight: 500; color: var(--slate-700);">
+            <?php 
+                if (!$clocked_in) echo "출근 전 입니다.";
+                else if (!$clocked_out) echo "근무 중입니다.";
+                else echo "퇴근 완료되었습니다.";
+            ?>
+        </div>
 
-    <!-- 상태 표시 -->
-    <div class="status">
-        <?php 
-            if (!$clocked_in) echo "출근 전 입니다.";
-            else if (!$clocked_out) echo "근무 중입니다.";
-            else echo "퇴근 완료되었습니다.";
-        ?>
-    </div>
+        <!-- 출근/퇴근 버튼 -->
+        <div style="display: flex; gap: 1rem;">
+            <!-- 출근 버튼: 출근 전만 활성화 -->
+            <button 
+                class="btn" 
+                onclick="checkIn()" 
+                <?= $clocked_in ? 'disabled' : '' ?>
+                style="flex: 1; padding: 1rem; font-size: 1.125rem; background-color: var(--primary-500); color: white; opacity: <?= $clocked_in ? '0.5' : '1' ?>; cursor: <?= $clocked_in ? 'not-allowed' : 'pointer' ?>;">
+                출근
+            </button>
 
-    <!-- 출근/퇴근 버튼 -->
-    <div class="btn-row">
-
-        <!-- 출근 버튼: 출근 전만 활성화 -->
-        <button 
-            class="btn-start <?= $clocked_in ? 'disabled' : '' ?>" 
-            onclick="checkIn()" 
-            <?= $clocked_in ? 'disabled' : '' ?>>
-            출근
-        </button>
-
-        <!-- 퇴근 버튼: 출근 후 ~ 퇴근 전만 활성화 -->
-        <button 
-            class="btn-end <?= (!$clocked_in || $clocked_out) ? 'disabled' : '' ?>" 
-            onclick="checkOut()" 
-            <?= (!$clocked_in || $clocked_out) ? 'disabled' : '' ?>>
-            퇴근
-        </button>
-
+            <!-- 퇴근 버튼: 출근 후 ~ 퇴근 전만 활성화 -->
+            <button 
+                class="btn" 
+                onclick="checkOut()" 
+                <?= (!$clocked_in || $clocked_out) ? 'disabled' : '' ?>
+                style="flex: 1; padding: 1rem; font-size: 1.125rem; background-color: #f59e0b; color: white; opacity: <?= (!$clocked_in || $clocked_out) ? '0.5' : '1' ?>; cursor: <?= (!$clocked_in || $clocked_out) ? 'not-allowed' : 'pointer' ?>;">
+                퇴근
+            </button>
+        </div>
     </div>
 </div>
-
 
 <script>
 // 실시간 시계
@@ -74,77 +75,3 @@ function checkOut() {
     location.href = "pages/attendance_check.php?type=out";
 }
 </script>
-
-
-<style>
-.att-card {
-    width: 380px;
-    margin: 30px auto;
-    padding: 25px;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-    text-align:center;
-}
-
-/* 시간 텍스트 */
-.current-time {
-    font-size: 36px;
-    font-weight: bold;
-    color:#111;
-}
-.current-date {
-    margin-top: 5px;
-    color:#555;
-    font-size:14px;
-}
-
-/* 상태 텍스트 */
-.status {
-    margin: 20px 0 25px;
-    font-size: 18px;
-    color:#333;
-}
-
-/* 버튼 영역 */
-.btn-row {
-    display:flex;
-    justify-content: space-between;
-    gap:18px;
-}
-
-/* 출근 버튼 – 연하늘색 */
-.btn-start {
-    flex: 1;
-    background: #60a5fa;
-    color:white;
-    border:0;
-    padding: 18px;
-    font-size:18px;
-    border-radius:12px;
-    cursor:pointer;
-    transition:0.2s;
-}
-
-/* 퇴근 버튼 – 연살구색 */
-.btn-end {
-    flex: 1;
-    background: #fbbf24;
-    color:white;
-    border:0;
-    padding: 18px;
-    font-size:18px;
-    border-radius:12px;
-    cursor:pointer;
-    transition:0.2s;
-}
-
-/* 비활성 상태 */
-button.disabled,
-button:disabled {
-    background: #d1d5db !important;
-    color:#888 !important;
-    cursor:not-allowed !important;
-}
-</style>
-

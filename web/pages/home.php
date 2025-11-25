@@ -11,33 +11,17 @@ else if ($hour >= 18 && $hour < 23) $greet = "기분 좋은 저녁이에요";
 else $greet = "늦은 밤이네요";
 ?>
 
-<div class="home-center">
-    <h1 class="welcome-text">
-        <?= $greet ?>, 
-        <span class="welcome-name"><?= $name ?></span><span class="welcome-text">님!</span>
-    </h1>
+<div class="content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 140px);">
+    <div style="text-align: center;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary-600), var(--primary-500)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <?= $greet ?>,
+        </h1>
+        <h2 style="font-size: 2.5rem; color: var(--slate-700);">
+            <span style="color: var(--slate-900); font-weight: 800;"><?= $name ?></span>님!
+        </h2>
+        <p style="margin-top: 1.5rem; color: var(--slate-500); font-size: 1.125rem;">
+            오늘도 활기찬 하루 되세요 🚀
+        </p>
+    </div>
 </div>
-
-<style>
-.home-center {
-    width: 100%;
-    height: calc(100vh - 90px); 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.welcome-text {
-    font-size: 42px;
-    font-weight: 700;
-    color: #2563eb;
-    margin-bottom: 40px;
-}
-
-.welcome-name {
-    color: #f4b400; 
-    font-weight: 700;
-}
-</style>
 
