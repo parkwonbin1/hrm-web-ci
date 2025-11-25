@@ -27,38 +27,79 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 }
 ?>
 
-<h3>직원 추가</h3>
-<form method="POST">
-    <label>이름</label>
-    <input class="form-control" name="name" required>
+<div class="content">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <h1 style="margin-bottom: 0.5rem;">직원 추가</h1>
+                <p class="text-muted">새로운 직원을 시스템에 등록합니다</p>
+            </div>
+            <a href="index.php?page=employees_list" class="btn btn-secondary">
+                목록으로 돌아가기
+            </a>
+        </div>
 
-    <label>이메일</label>
-    <input class="form-control" name="email" required>
+        <div class="card">
+            <form method="POST">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">이름 <span style="color: var(--danger-500)">*</span></label>
+                        <input class="form-control" name="name" required placeholder="홍길동">
+                    </div>
 
-    <label>비밀번호</label>
-    <input class="form-control" name="password" required>
+                    <div class="form-group">
+                        <label class="form-label">이메일 <span style="color: var(--danger-500)">*</span></label>
+                        <input class="form-control" name="email" type="email" required placeholder="name@company.com">
+                    </div>
+                </div>
 
-    <label>부서</label>
-    <input class="form-control" name="department">
+                <div class="form-group">
+                    <label class="form-label">비밀번호 <span style="color: var(--danger-500)">*</span></label>
+                    <input class="form-control" name="password" type="password" required placeholder="초기 비밀번호를 입력하세요">
+                </div>
 
-    <label>직무</label>
-    <input class="form-control" name="job_title">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">부서</label>
+                        <input class="form-control" name="department" placeholder="예: 개발팀">
+                    </div>
 
-    <label>직책</label>
-    <input class="form-control" name="position">
+                    <div class="form-group">
+                        <label class="form-label">직무</label>
+                        <input class="form-control" name="job_title" placeholder="예: 백엔드 개발자">
+                    </div>
+                </div>
 
-    <label>입사일</label>
-    <input type="date" class="form-control" name="hire_date">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">직책</label>
+                        <input class="form-control" name="position" placeholder="예: 대리">
+                    </div>
 
-    <label>권한</label>
-    <select class="form-control" name="role">
-        <option value="USER">USER</option>
-        <option value="ADMIN">ADMIN</option>
-    </select>
+                    <div class="form-group">
+                        <label class="form-label">입사일</label>
+                        <input type="date" class="form-control" name="hire_date">
+                    </div>
+                </div>
 
-    <label>기술스택</label>
-    <textarea class="form-control" name="tech_stack"></textarea>
+                <div class="form-group">
+                    <label class="form-label">권한</label>
+                    <select class="form-control" name="role">
+                        <option value="USER">일반 사용자 (USER)</option>
+                        <option value="ADMIN">관리자 (ADMIN)</option>
+                    </select>
+                </div>
 
-    <button class="btn btn-primary mt-3">등록</button>
-</form>
+                <div class="form-group">
+                    <label class="form-label">기술스택</label>
+                    <textarea class="form-control" name="tech_stack" rows="4" placeholder="사용 가능한 기술을 쉼표로 구분하여 입력하세요"></textarea>
+                </div>
 
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--slate-100); display: flex; justify-content: flex-end; gap: 1rem;">
+                    <a href="index.php?page=employees_list" class="btn btn-secondary">취소</a>
+                    <button class="btn btn-primary" style="padding-left: 2rem; padding-right: 2rem;">직원 등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
