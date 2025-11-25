@@ -34,7 +34,7 @@ $page_title = $titles[$page] ?? "HRM 시스템";
 <?php
     $file = "pages/$page.php";
     if (file_exists($file)) include $file;
-    else echo "<h3>페이지 없음</h3>";
+    else echo "<h3></h3>";
 ?>
 </div>
 
