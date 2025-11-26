@@ -1,7 +1,5 @@
 <?php
 // 출력 버퍼가 없으면 생성
-if (!ob_get_level()) ob_start();
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -578,9 +576,3 @@ if ($page === 'employees_list' && $view) {
 
 </body>
 </html>
-
-<?php
-// 출력 버퍼가 존재할 때만 종료
-if (ob_get_level() > 0) ob_end_flush();
-?>
-
