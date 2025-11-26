@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+<div style="display:flex; justify-content:center; align-items:center; min-height:calc(100vh - 140px);">
     <div class="card" style="max-width:800px; width:100%; padding:2rem;">
 
         <div style="margin-bottom:2rem; display:flex; align-items:center; justify-content:space-between;">
@@ -126,3 +127,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
 
     </div>
+</div>
