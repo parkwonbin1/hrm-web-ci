@@ -495,6 +495,16 @@ h4 {
 }
 
 /* Login Layout */
+.content.center-page {
+    max-width: 1200px;
+    margin: 100px auto 40px;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 140px);
+}
+
 .login-container {
     min-height: 100vh;
     display: flex;
@@ -559,11 +569,18 @@ h4 {
 
 <?php include "layouts/topbar.php"; ?>
 
-<div class="content">
+<?php 
+// employee_add 페이지일 때만 'center-page' 클래스를 추가
+$content_class = "content";
+if ($page === 'employee_add') {
+    $content_class = "content center-page";
+}
+?>
+
+<div class="<?= $content_class ?>">
 <?php
     $file = "pages/$page.php";
     if (file_exists($file)) include $file;
-    else echo "<h3></h3>";
 ?>
 </div>
 
