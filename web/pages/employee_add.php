@@ -44,8 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<div class="content" style="display:flex; justify-content:center; align-items:center; min-height:calc(100vh - 140px);">
+<div style="display:flex; justify-content:center; align-items:center; min-height:calc(100vh - 140px);">
     <div class="card" style="max-width:800px; width:100%; padding:2rem;">
+
         <div style="margin-bottom:2rem; display:flex; align-items:center; justify-content:space-between;">
             <div>
                 <h1 style="margin-bottom:0.5rem;">직원 추가</h1>
@@ -53,45 +54,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <a href="index.php?page=employees_list" class="btn btn-secondary">목록으로</a>
         </div>
+
         <form method="POST" enctype="multipart/form-data">
+
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+
                 <div class="form-group">
                     <label class="form-label">이름 <span style="color:var(--danger-500)">*</span></label>
                     <input class="form-control" name="name" required placeholder="홍길동">
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">이메일 <span style="color:var(--danger-500)">*</span></label>
                     <input class="form-control" name="email" type="email" required placeholder="name@company.com">
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">비밀번호 <span style="color:var(--danger-500)">*</span></label>
                     <input class="form-control" name="password" type="password" required placeholder="초기 비밀번호 입력">
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">프로필 사진</label>
                     <input type="file" class="form-control" name="profile_img" accept="image/*">
                 </div>
+
             </div>
+
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+
                 <div class="form-group">
                     <label class="form-label">부서</label>
                     <input class="form-control" name="department" placeholder="예: 개발팀">
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">직무</label>
                     <input class="form-control" name="job_title" placeholder="예: 백엔드 개발자">
                 </div>
+
             </div>
+
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+
                 <div class="form-group">
                     <label class="form-label">직책</label>
                     <input class="form-control" name="position" placeholder="예: 대리">
                 </div>
+
                 <div class="form-group">
                     <label class="form-label">입사일</label>
                     <input type="date" class="form-control" name="hire_date">
                 </div>
+
             </div>
+
             <div class="form-group" style="margin-top:1.5rem;">
                 <label class="form-label">권한</label>
                 <select class="form-control" name="role">
@@ -99,14 +116,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <option value="ADMIN">ADMIN</option>
                 </select>
             </div>
+
             <div class="form-group" style="margin-top:1.5rem;">
                 <label class="form-label">기술스택</label>
                 <textarea class="form-control" name="tech_stack" rows="4" placeholder="쉼표로 구분"></textarea>
             </div>
+
             <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--slate-100); display:flex; justify-content:flex-end; gap:1rem;">
                 <a href="index.php?page=employees_list" class="btn btn-secondary">취소</a>
                 <button type="submit" class="btn btn-primary" style="padding-left:2rem; padding-right:2rem;">직원 등록</button>
             </div>
+
         </form>
+
     </div>
 </div>
