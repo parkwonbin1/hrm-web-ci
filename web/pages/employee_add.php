@@ -1,7 +1,7 @@
 <?php
-include "./auth/role_admin.php";
-include "./config/db.php";
-include "./config/minio.php"; // MinIO client
+include __DIR__ . "/../auth/role_admin.php";
+include __DIR__ . "/../config/db.php";
+include __DIR__ . "/../config/minio.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 기본 필드
