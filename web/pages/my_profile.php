@@ -10,8 +10,19 @@ $me = $_SESSION['emp_id'] ?? null;
 if (!$me) {
     exit("잘못된 접근");
 }
-<div class="flex-center">
-    <div class="page-card">
+
+$sql = "SELECT * FROM employees WHERE emp_id='$me'";
+$res = $conn->query($sql);
+$emp = $res->fetch_assoc();
+?>
+<div class="content" style="display:flex; justify-content:center; align-items:center; min-height:calc(100vh - 140px);">
+    <div class="card" style="max-width:800px; width:100%; padding:2rem;">
+        <!-- 프로필 헤더 -->
+        <div style="display:flex; align-items:center; gap:1.5rem; padding-bottom:2rem; border-bottom:1px solid var(--slate-100); margin-bottom:2rem;">
+            <div style="width:120px; height:120px; border-radius:50%; overflow:hidden; border:4px solid var(--slate-50); box-shadow:var(--shadow);">
+                <img src="<?= $emp['profile_image_url'] ?: 'https://via.placeholder.com/120' ?>" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div>
                 <h2 style="margin-bottom:0.25rem;">
                     <?= htmlspecialchars($emp['name']) ?>
                 </h2>
@@ -61,5 +72,4 @@ if (!$me) {
             </div>
         </div>
     </div>
-</div>
 </div>
