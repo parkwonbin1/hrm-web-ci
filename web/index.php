@@ -1,10 +1,4 @@
 <?php
-// 이미 실행되었는지 체크
-if (defined('INDEX_LOADED')) {
-    die('Index already loaded');
-}
-define('INDEX_LOADED', true);
-
 // 출력 버퍼가 없으면 생성
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
