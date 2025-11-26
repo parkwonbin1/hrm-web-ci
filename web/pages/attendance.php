@@ -13,8 +13,8 @@ $has_record   = $res->num_rows > 0;
 $clocked_in   = $has_record && !empty($att['clock_in_time']);
 $clocked_out  = $has_record && !empty($att['clock_out_time']);
 ?>
-<div class="content" style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 200px);">
-    <div class="card" style="width: 100%; max-width: 400px; text-align: center; padding: 3rem 2rem;">
+<div class="flex-center">
+    <div class="page-card">
         <h2 style="margin-bottom: 1.5rem; font-size: 1.75rem;">근태 관리</h2>
         <div style="margin-bottom: 2rem;">
             <div id="currentTime" style="font-size: 3rem; font-weight: 700; color: var(--slate-900); line-height: 1;">0:00:00</div>
