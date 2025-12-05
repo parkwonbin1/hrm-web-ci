@@ -18,7 +18,7 @@ else $greet = "늦은 밤이네요";
       </span>님!
     </h2>
     <p style="margin-top:1.5rem; color:var(--slate-500); font-size:1.125rem;">
-      Test 🚀
+      Test입니다!
     </p>
   </div>
 </div>
